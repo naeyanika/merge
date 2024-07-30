@@ -22,8 +22,8 @@ if 'pinjaman_na' in dfs:
             return sum(int(value.replace('Rp ', '').replace(',', '')) for value in x)
         return x 
 
-            df1['TRANS. DATE'] = pd.to_datetime(df1['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
-            df1['DUMMY'] = df1['ID ANGGOTA'] + '' + df1['TRANS. DATE']
+     df1['TRANS. DATE'] = pd.to_datetime(df1['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+     df1['DUMMY'] = df1['ID ANGGOTA'] + '' + df1['TRANS. DATE']
 
             pivot_table4 = pd.pivot_table(df1,
                                           values=['DEBIT', 'CREDIT'],
