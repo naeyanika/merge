@@ -86,16 +86,18 @@ if uploaded_files:
         pivot_table1 = pivot_table1.rename(columns=rename_dict)
 
         desired_order = [
-        'Db PTN', 'Cr PTN', 'Db ARTA', 'Cr ARTA', 'Db DTP', 'Cr DTP', 'Db PMB', 'Cr PMB', 
-        'Db PRR', 'Cr PRR', 'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
+            'ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KEL', 'HARI', 'JAM', 'SL', 'TRANS. DATE',
+            'Db PRT', 'Db DTP', 'Db PMB', 'Db PSA', 'Db PU', 'Db PRR', 'Db PTN', 'Db Total2',
+            'Cr PRT', 'Cr DTP', 'Cr PMB', 'Cr PSA', 'Cr PU', 'Cr PRR', 'Cr PTN', 'Cr Total2'
         ]
 
-         for col in desired_order:
+        # Tambahkan kolom yang mungkin belum ada dalam DataFrame
+        for col in desired_order:
             if col not in pivot_table1.columns:
                 pivot_table1[col] = 0
-        
+
         pivot_table1 = pivot_table1[desired_order]
-        
+
         st.write("Pivot THC Pinjaman N/A:")
         st.write(pivot_table1)
 
