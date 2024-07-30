@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import io
 
-st.title('Merge Simpanan, Pinjaman, dan N/A Pinjaman')
+st.title('Merge Pinjaman, TLP, dan KDP N/A')
 
 uploaded_files = st.file_uploader("Unggah file Excel", accept_multiple_files=True, type=["xlsx"])
 
