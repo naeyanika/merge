@@ -39,7 +39,7 @@ if uploaded_files:
         pivot_table1.reset_index(inplace=True)
         pivot_table1['TRANS. DATE'] = pd.to_datetime(pivot_table1['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
 
-        new_columns4 = [
+        new_columns1 = [
             'DEBIT_PINJAMAN UMUM',
             'DEBIT_PINJAMAN RENOVASI RUMAH',
             'DEBIT_PINJAMAN SANITASI',
@@ -56,7 +56,7 @@ if uploaded_files:
             'CREDIT_PINJAMAN PERTANIAN'
         ]
 
-        for col in new_columns4:
+        for col in new_columns1:
             if col not in pivot_table1.columns:
                 pivot_table1[col] = 0
 
