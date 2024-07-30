@@ -90,6 +90,11 @@ if uploaded_files:
         'Db PRR', 'Cr PRR', 'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
         ]
 
+         for col in desired_order:
+            if col not in pivot_table4.columns:
+                pivot_table4[col] = 0
+        
+        pivot_table1 = pivot_table1[desired_order]
         
         st.write("Pivot THC Pinjaman N/A:")
         st.write(pivot_table1)
