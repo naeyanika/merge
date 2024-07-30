@@ -87,8 +87,8 @@ if uploaded_files:
 
         desired_order = [
             'ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KEL', 'HARI', 'JAM', 'SL', 'TRANS. DATE',
-            'Db PRT', 'Db DTP', 'Db PMB', 'Db PSA', 'Db PU', 'Db PRR', 'Db PTN', 'Db Total2',
-            'Cr PRT', 'Cr DTP', 'Cr PMB', 'Cr PSA', 'Cr PU', 'Cr PRR', 'Cr PTN', 'Cr Total2'
+            'Db PTN', 'Cr PTN', 'Db PRT', 'Cr PRT', 'Db DTP', 'Cr DTP', 'Db PMB', 'Cr PMB', 'Db PRR', 'Cr PRR',
+            'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
         ]
 
         # Tambahkan kolom yang mungkin belum ada dalam DataFrame
