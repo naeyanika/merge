@@ -84,6 +84,12 @@ if uploaded_files:
         }
 
         pivot_table1 = pivot_table1.rename(columns=rename_dict)
+
+        desired_order = [
+        'Db PTN', 'Cr PTN', 'Db ARTA', 'Cr ARTA', 'Db DTP', 'Cr DTP', 'Db PMB', 'Cr PMB', 
+        'Db PRR', 'Cr PRR', 'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
+        ]
+
         
         st.write("Pivot THC Pinjaman N/A:")
         st.write(pivot_table1)
