@@ -4,6 +4,7 @@ import numpy as np
 import io
 
 st.title('Merge Pinjaman, TLP, dan KDP N/A')
+st.write("""Ini digunakan untuk pivot table data dari pinjaman, tlp dan kdp N/A yang sudah di cari manual""")
 
 uploaded_files = st.file_uploader("Unggah file Excel", accept_multiple_files=True, type=["xlsx"])
 
