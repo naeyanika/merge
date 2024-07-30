@@ -15,7 +15,7 @@ if uploaded_files:
     
 
     # Proses Pinjaman N/A
-    if 'THC.csv' in dfs:
+    if 'pinjaman_na' in dfs:
     df1 = dfs['pinjaman_na.xlsx']
     def sum_lists(x):
                 if isinstance(x, list):
