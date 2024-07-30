@@ -91,8 +91,8 @@ if uploaded_files:
         ]
 
          for col in desired_order:
-            if col not in pivot_table4.columns:
-                pivot_table4[col] = 0
+            if col not in pivot_table1.columns:
+                pivot_table1[col] = 0
         
         pivot_table1 = pivot_table1[desired_order]
         
