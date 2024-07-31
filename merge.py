@@ -102,7 +102,7 @@ if uploaded_files:
         st.write("Pivot THC Pinjaman N/A:")
         st.write(pivot_table1)
 
-    # Proses Pinjaman N/A
+    # Proses TLP N/A
     if 'TLP_na.xlsx' in dfs:
         df2 = dfs['TLP_na.xlsx']
         
@@ -190,7 +190,7 @@ if uploaded_files:
         st.write("Pivot TLP N/A:")
         st.write(pivot_table2)
 
-    # Proses Pinjaman N/A
+    # Proses KDP N/A
     if 'KDP_na.xlsx' in dfs:
         df3 = dfs['KDP_na.xlsx']
         
