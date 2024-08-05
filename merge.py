@@ -106,11 +106,6 @@ if uploaded_files:
     # Proses TLP N/A
     if 'TLP_na.xlsx' in dfs:
         df2 = dfs['TLP_na.xlsx']
-        
-        def sum_lists(x):
-            if isinstance(x, list):
-                return sum(int(value.replace('Rp ', '').replace(',', '')) for value in x)
-            return x 
 
         df2['TRANS. DATE'] = pd.to_datetime(df2['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
         df2['DUMMY'] = df2['ID ANGGOTA'] + '' + df2['TRANS. DATE']
@@ -194,11 +189,7 @@ if uploaded_files:
     # Proses KDP N/A
     if 'KDP_na.xlsx' in dfs:
         df3 = dfs['KDP_na.xlsx']
-        
-        def sum_lists(x):
-            if isinstance(x, list):
-                return sum(int(value.replace('Rp ', '').replace(',', '')) for value in x)
-            return x 
+         
 
         df3['TRANS. DATE'] = pd.to_datetime(df3['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
         df3['DUMMY'] = df3['ID ANGGOTA'] + '' + df3['TRANS. DATE']
