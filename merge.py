@@ -3,6 +3,17 @@ import pandas as pd
 import numpy as np
 import io
 
+def sum_lists(x):
+    total = 0
+    for value in x:
+        try:
+            cleaned_value = value.replace('Rp ', '').replace(',', '')
+            total += int(cleaned_value)
+        except ValueError as e:
+            print(f"Error converting value: {value} -> {cleaned_value}")
+            raise e
+    return total
+
 st.title('Merge Pinjaman, TLP, dan KDP N/A')
 st.write("""1. Ini digunakan untuk pivot table data dari pinjaman, tlp dan kdp N/A yang sudah di cari manual""")
 st.write("""2. Nama data sesuai yang di download sebelumnya tidak usah di ubah lagi dan ektensi file nya dibiarkan .xlsx""")
@@ -32,6 +43,7 @@ if uploaded_files:
         )
 
         pivot_table1 = pivot_table1.applymap(sum_lists)
+        
         pivot_table1.columns = [f'{col[0]}_{col[1]}' for col in pivot_table1.columns]
         pivot_table1.reset_index(inplace=True)
         pivot_table1['TRANS. DATE'] = pd.to_datetime(pivot_table1['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
@@ -171,20 +183,18 @@ if uploaded_files:
             'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
         ]
 
-        # Tambahkan kolom yang mungkin belum ada dalam DataFrame
         for col in desired_order:
             if col not in pivot_table2.columns:
                 pivot_table2[col] = 0
 
         pivot_table2 = pivot_table2[desired_order]
 
-        st.write("Pivot TLP N/A:")
+        st.write("Pivot THC TLP N/A:")
         st.write(pivot_table2)
 
     # Proses KDP N/A
     if 'KDP_na.xlsx' in dfs:
         df3 = dfs['KDP_na.xlsx']
-         
 
         df3['TRANS. DATE'] = pd.to_datetime(df3['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
         df3['DUMMY'] = df3['ID ANGGOTA'] + '' + df3['TRANS. DATE']
@@ -255,15 +265,14 @@ if uploaded_files:
             'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
         ]
 
-        # Tambahkan kolom yang mungkin belum ada dalam DataFrame
         for col in desired_order:
             if col not in pivot_table3.columns:
                 pivot_table3[col] = 0
 
         pivot_table3 = pivot_table3[desired_order]
 
-        st.write("Pivot KDP N/A:")
-        st.write(pivot_table3)    
+        st.write("Pivot THC KDP N/A:")
+        st.write(pivot_table3)   
 
          # Download links for pivot tables
     for name, df in {
