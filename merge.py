@@ -15,11 +15,14 @@ def sum_lists(x):
         total = 0
         for value in x:
             try:
-                cleaned_value = value.replace('Rp ', '').replace(',', '')
-                total += int(cleaned_value)
+                if isinstance(value, str):
+                    cleaned_value = value.replace('Rp ', '').replace(',', '')
+                else:
+                    cleaned_value = str(value)
+                total += float(cleaned_value)
             except ValueError as e:
                 print(f"Error converting value: {value} -> {cleaned_value}")
-                raise e
+                continue
         return total
     else:
         return x
