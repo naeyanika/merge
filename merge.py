@@ -3,6 +3,20 @@ import pandas as pd
 import numpy as np
 import io
 
+def sum_lists(x):
+    if isinstance(x, list):
+        total = 0
+        for value in x:
+            try:
+                cleaned_value = value.replace('Rp ', '').replace(',', '')
+                total += int(cleaned_value)
+            except ValueError as e:
+                print(f"Error converting value: {value} -> {cleaned_value}")
+                raise e
+        return total
+    else:
+        return x
+        
 st.title('Merge Pinjaman, TLP, dan KDP N/A')
 st.write("""1. Ini digunakan untuk pivot table data dari pinjaman, tlp dan kdp N/A yang sudah di cari manual""")
 st.write("""2. Nama data sesuai yang di download sebelumnya tidak usah di ubah lagi dan ektensi file nya dibiarkan .xlsx""")
