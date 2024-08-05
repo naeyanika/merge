@@ -18,11 +18,6 @@ if uploaded_files:
     # Proses Pinjaman N/A
     if 'pinjaman_na.xlsx' in dfs:
         df1 = dfs['pinjaman_na.xlsx']
-        
-        def sum_lists(x):
-            if isinstance(x, list):
-                return sum(int(value.replace('Rp ', '').replace(',', '')) for value in x)
-            return x 
 
         df1['TRANS. DATE'] = pd.to_datetime(df1['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
         df1['DUMMY'] = df1['ID ANGGOTA'] + '' + df1['TRANS. DATE']
