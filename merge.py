@@ -5,9 +5,11 @@ import io
 
 
 st.title('Merge Pinjaman, TLP, dan KDP N/A')
+st.divider()
 st.caption("Catatan:")
 st.caption("1. Ini digunakan untuk pivot table data dari pinjaman, tlp dan kdp N/A yang sudah di cari manual")
 st.caption("2. Nama data sesuai yang di download sebelumnya tidak usah di ubah lagi dan ektensi file nya dibiarkan .xlsx")
+st.divider()
 
 st.subheader("File yang dibutuhkan")
 st.write("1. pinjamana_na.xlsx")
