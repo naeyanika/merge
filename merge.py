@@ -5,8 +5,14 @@ import io
 
 
 st.title('Merge Pinjaman, TLP, dan KDP N/A')
-st.write("""1. Ini digunakan untuk pivot table data dari pinjaman, tlp dan kdp N/A yang sudah di cari manual""")
-st.write("""2. Nama data sesuai yang di download sebelumnya tidak usah di ubah lagi dan ektensi file nya dibiarkan .xlsx""")
+st.caption("Catatan:")
+st.caption("1. Ini digunakan untuk pivot table data dari pinjaman, tlp dan kdp N/A yang sudah di cari manual")
+st.caption("2. Nama data sesuai yang di download sebelumnya tidak usah di ubah lagi dan ektensi file nya dibiarkan .xlsx")
+
+st.subheader("File yang dibutuhkan")
+st.write("1. pinjamana_na.xlsx")
+st.write("2. TLP_na.xlsx")
+st.write("3. KDP_na.xlsx")
 
 uploaded_files = st.file_uploader("Unggah file Excel", accept_multiple_files=True, type=["xlsx"])
 
