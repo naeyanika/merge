@@ -289,22 +289,31 @@ if uploaded_files:
         st.write("Pivot THC KDP N/A:")
         st.write(pivot_table3)   
 
-         # Download links for pivot tables
-        pivot_tables = {
-    'pivot_pinjaman_na.xlsx': pivot_table1 if 'pivot_table1' in locals() else None,
-    'pivot_TLP_na.xlsx': pivot_table2 if 'pivot_table2' in locals() else None,
-    'pivot_KDP_na.xlsx': pivot_table3 if 'pivot_table3' in locals() else None
-}
+        # Download links for pivot tables
+    if any('pivot_table' + str(i) in locals() for i in range(1, 4)):
+        pivot_tables = {}
 
-for name, df in pivot_tables.items():
-    if df is not None:
-        buffer = io.BytesIO()
-        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            df.to_excel(writer, index=False, sheet_name='Sheet1')
-        buffer.seek(0)
-        st.download_button(
-            label=f"Unduh {name}",
-            data=buffer.getvalue(),
-            file_name=name,
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        if 'pivot_table1' in locals():
+            pivot_tables['pivot_pinjaman_na.xlsx'] = pivot_table1
+
+        if 'pivot_table2' in locals():
+            pivot_tables['pivot_TLP_na.xlsx'] = pivot_table2
+
+        if 'pivot_table3' in locals():
+            pivot_tables['pivot_KDP_na.xlsx'] = pivot_table3
+
+        for name, df in pivot_tables.items():
+            buffer = io.BytesIO()
+            with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                df.to_excel(writer, index=False, sheet_name='Sheet1')
+            buffer.seek(0)
+            st.download_button(
+                label=f"Unduh {name}",
+                data=buffer.getvalue(),
+                file_name=name,
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+    else:
+        st.write("No pivot tables were created. Please upload at least one valid file.")
+else:
+    st.write("Please upload at least one file to process.")
