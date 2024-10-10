@@ -290,11 +290,14 @@ if uploaded_files:
         st.write(pivot_table3)   
 
          # Download links for pivot tables
-    for name, df in {
-        'pivot_pinjaman_na.xlsx': pivot_table1,
-        'pivot_TLP_na.xlsx': pivot_table2,
-        'pivot_KDP_na.xlsx': pivot_table3
-    }.items():
+        pivot_tables = {
+    'pivot_pinjaman_na.xlsx': pivot_table1 if 'pivot_table1' in locals() else None,
+    'pivot_TLP_na.xlsx': pivot_table2 if 'pivot_table2' in locals() else None,
+    'pivot_KDP_na.xlsx': pivot_table3 if 'pivot_table3' in locals() else None
+}
+
+for name, df in pivot_tables.items():
+    if df is not None:
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
             df.to_excel(writer, index=False, sheet_name='Sheet1')
