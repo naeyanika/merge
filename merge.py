@@ -24,13 +24,10 @@ def sum_lists(x):
         for value in x:
             try:
                 if isinstance(value, str):
-                    # Remove any currency symbols or formatting
-                    cleaned_value = value.replace('Rp ', '').replace(',', '').strip()
+                    cleaned_value = value.replace('Rp ', '').replace(',', '')
                 else:
                     cleaned_value = str(value)
-                
-                # Convert to float, handling empty strings
-                total += float(cleaned_value) if cleaned_value else 0
+                total += float(cleaned_value)
             except ValueError as e:
                 print(f"Error converting value: {value} -> {cleaned_value}")
                 continue
@@ -52,15 +49,15 @@ if uploaded_files:
         df1['DUMMY'] = df1['ID ANGGOTA'] + '' + df1['TRANS. DATE']
 
         pivot_table1 = pd.pivot_table(
-        df1,
-        values=['DEBIT', 'CREDIT'],
-        index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
-        columns='JENIS PINJAMAN',
-        aggfunc={'DEBIT': list, 'CREDIT': list},
-        fill_value=0
+            df1,
+            values=['DEBIT', 'CREDIT'],
+            index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+            columns='JENIS PINJAMAN',
+            aggfunc={'DEBIT': list, 'CREDIT': list},
+            fill_value=0
         )
 
-        pivot_table1 = pivot_table1.apply(lambda x: x.map(sum_lists))
+        pivot_table1 = pivot_table1.map(sum_lists)
         
         pivot_table1.columns = [f'{col[0]}_{col[1]}' for col in pivot_table1.columns]
         pivot_table1.reset_index(inplace=True)
@@ -144,7 +141,7 @@ if uploaded_files:
             fill_value=0
         )
 
-        pivot_table2 = pivot_table2.applymap(sum_lists)
+        pivot_table2 = pivot_table2.map(sum_lists)
         pivot_table2.columns = [f'{col[0]}_{col[1]}' for col in pivot_table2.columns]
         pivot_table2.reset_index(inplace=True)
         pivot_table2['TRANS. DATE'] = pd.to_datetime(pivot_table2['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
@@ -226,7 +223,7 @@ if uploaded_files:
             fill_value=0
         )
 
-        pivot_table3 = pivot_table3.applymap(sum_lists)
+        pivot_table3 = pivot_table3.map(sum_lists)
         pivot_table3.columns = [f'{col[0]}_{col[1]}' for col in pivot_table3.columns]
         pivot_table3.reset_index(inplace=True)
         pivot_table3['TRANS. DATE'] = pd.to_datetime(pivot_table3['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
