@@ -24,10 +24,13 @@ def sum_lists(x):
         for value in x:
             try:
                 if isinstance(value, str):
-                    cleaned_value = value.replace('Rp ', '').replace(',', '')
+                    # Remove any currency symbols or formatting
+                    cleaned_value = value.replace('Rp ', '').replace(',', '').strip()
                 else:
                     cleaned_value = str(value)
-                total += float(cleaned_value)
+                
+                # Convert to float, handling empty strings
+                total += float(cleaned_value) if cleaned_value else 0
             except ValueError as e:
                 print(f"Error converting value: {value} -> {cleaned_value}")
                 continue
@@ -49,15 +52,15 @@ if uploaded_files:
         df1['DUMMY'] = df1['ID ANGGOTA'] + '' + df1['TRANS. DATE']
 
         pivot_table1 = pd.pivot_table(
-            df1,
-            values=['DEBIT', 'CREDIT'],
-            index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
-            columns='JENIS PINJAMAN',
-            aggfunc={'DEBIT': list, 'CREDIT': list},
-            fill_value=0
+        df1,
+        values=['DEBIT', 'CREDIT'],
+        index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+        columns='JENIS PINJAMAN',
+        aggfunc={'DEBIT': list, 'CREDIT': list},
+        fill_value=0
         )
 
-        pivot_table1 = pivot_table1.applymap(sum_lists)
+        pivot_table1 = pivot_table1.apply(lambda x: x.map(sum_lists))
         
         pivot_table1.columns = [f'{col[0]}_{col[1]}' for col in pivot_table1.columns]
         pivot_table1.reset_index(inplace=True)
