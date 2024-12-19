@@ -42,6 +42,8 @@ if uploaded_files:
         df = pd.read_excel(file, engine='openpyxl')  # Baca file Excel dengan pandas
         dfs[file.name] = df
     
+    results = {}
+    
     # Proses Pinjaman N/A
     if 'pinjaman_na.xlsx' in dfs:
         df1 = dfs['pinjaman_na.xlsx']
@@ -123,6 +125,7 @@ if uploaded_files:
 
         pivot_table1 = pivot_table1[desired_order]
 
+        results['pivot_pinjaman_na.xlsx'] = pivot_table1
         st.write("Pivot THC Pinjaman N/A:")
         st.write(pivot_table1)
 
@@ -212,6 +215,7 @@ if uploaded_files:
 
         pivot_table4 = pivot_table4[desired_order]
 
+        results['pivot_simpanan_na.xlsx'] = pivot_table4
         st.write("Pivot THC Simpanan N/A:")
         st.write(pivot_table4)
 
@@ -294,6 +298,7 @@ if uploaded_files:
 
         pivot_table2 = pivot_table2[desired_order]
 
+        results['pivot_TLP_na.xlsx'] = pivot_table2
         st.write("Pivot THC TLP N/A:")
         st.write(pivot_table2)
 
@@ -376,27 +381,15 @@ if uploaded_files:
 
         pivot_table3 = pivot_table3[desired_order]
 
+        results['pivot_KDP_na.xlsx'] = pivot_table3
         st.write("Pivot THC KDP N/A:")
         st.write(pivot_table3)   
 
         # Download links for pivot tables
-    if any('pivot_table' + str(i) in locals() for i in range(1, 4)):
-        pivot_tables = {}
-
-        if 'pivot_table1' in locals():
-            pivot_tables['pivot_pinjaman_na.xlsx'] = pivot_table1
-        
-        if 'pivot_table4' in locals():
-            pivot_tables['pivot_simpanan_na.xlsx'] = pivot_table4
-
-        if 'pivot_table2' in locals():
-            pivot_tables['pivot_TLP_na.xlsx'] = pivot_table2
-
-        if 'pivot_table3' in locals():
-            pivot_tables['pivot_KDP_na.xlsx'] = pivot_table3
-
-
-        for name, df in pivot_tables.items():
+    if results:
+        st.divider()
+        st.subheader("Download Hasil Pivot")
+        for name, df in results.items():
             buffer = io.BytesIO()
             with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
                 df.to_excel(writer, index=False, sheet_name='Sheet1')
@@ -408,6 +401,6 @@ if uploaded_files:
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
     else:
-        st.write("No pivot tables were created. Please upload at least one valid file.")
+        st.warning("Tidak ada file yang dapat diproses. Pastikan nama file sesuai dengan yang diharapkan.")
 else:
-    st.write("Please upload at least one file to process.")
+    st.info("Silakan upload file yang ingin diproses.")
