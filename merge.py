@@ -134,7 +134,7 @@ if uploaded_files:
         df4['TRANS. DATE'] = pd.to_datetime(df4['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
         df4['DUMMY'] = df1['ID ANGGOTA'] + '' + df4['TRANS. DATE']
 
-        pivot_table1 = pd.pivot_table(
+        pivot_table4 = pd.pivot_table(
             df4,
             values=['DEBIT', 'CREDIT'],
             index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
