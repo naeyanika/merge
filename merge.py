@@ -15,6 +15,7 @@ st.subheader("File yang dibutuhkan")
 st.write("1. pinjamana_na.xlsx")
 st.write("2. TLP_na.xlsx")
 st.write("3. KDP_na.xlsx")
+st.write("4. simpanan_na.xlsx")
 
 uploaded_files = st.file_uploader("Unggah file Excel", accept_multiple_files=True, type=["xlsx"])
 
@@ -124,6 +125,95 @@ if uploaded_files:
 
         st.write("Pivot THC Pinjaman N/A:")
         st.write(pivot_table1)
+
+
+        # Proses Simpanan N/A
+    if 'simpanan_na.xlsx' in dfs:
+        df4 = dfs['simpanan_na.xlsx']
+
+        df4['TRANS. DATE'] = pd.to_datetime(df4['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+        df4['DUMMY'] = df1['ID ANGGOTA'] + '' + df4['TRANS. DATE']
+
+        pivot_table1 = pd.pivot_table(
+            df4,
+            values=['DEBIT', 'CREDIT'],
+            index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+            columns='JENIS SIMPANAN',
+            aggfunc={'DEBIT': list, 'CREDIT': list},
+            fill_value=0
+        )
+
+        pivot_table4 = pivot_table4.map(sum_lists)
+        
+        pivot_table4.columns = [f'{col[0]}_{col[1]}' for col in pivot_table4.columns]
+        pivot_table4.reset_index(inplace=True)
+        pivot_table4['TRANS. DATE'] = pd.to_datetime(pivot_table4['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
+
+        new_columns4 = [
+        'DEBIT_Simpanan Pensiun',
+        'DEBIT_Simpanan Pokok',
+        'DEBIT_Simpanan Sukarela',
+        'DEBIT_Simpanan Wajib',
+        'DEBIT_Simpanan Hari Raya',
+        'DEBIT_Simpanan Qurban',
+        'DEBIT_Simpanan Sipadan',
+        'DEBIT_Simpanan Khusus',
+        'CREDIT_Simpanan Pensiun',
+        'CREDIT_Simpanan Pokok',
+        'CREDIT_Simpanan Sukarela',
+        'CREDIT_Simpanan Wajib',
+        'CREDIT_Simpanan Hari Raya',
+        'CREDIT_Simpanan Qurban',
+        'CREDIT_Simpanan Sipadan',
+        'CREDIT_Simpanan Khusus'
+        ]
+
+        for col in new_columns4:
+            if col not in pivot_table4.columns:
+                pivot_table4[col] = 0
+
+        pivot_table4['DEBIT_TOTAL'] = pivot_table4.filter(like='DEBIT').sum(axis=1)
+        pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
+
+        rename_dict = {
+        'KELOMPOK': 'KEL',
+        'DEBIT_Simpanan Hari Raya': 'Db Sihara',
+        'DEBIT_Simpanan Pensiun': 'Db Pensiun',
+        'DEBIT_Simpanan Pokok': 'Db Pokok',
+        'DEBIT_Simpanan Sukarela': 'Db Sukarela',
+        'DEBIT_Simpanan Wajib': 'Db Wajib',
+        'DEBIT_Simpanan Qurban': 'Db Qurban',
+        'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
+        'DEBIT_Simpanan Khusus': 'Db Khusus',
+        'DEBIT_TOTAL': 'Db Total',
+        'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
+        'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
+        'CREDIT_Simpanan Pokok': 'Cr Pokok',
+        'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
+        'CREDIT_Simpanan Wajib': 'Cr Wajib',
+        'CREDIT_Simpanan Qurban': 'Cr Qurban',
+        'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
+        'CREDIT_Simpanan Khusus': 'Cr Khusus',
+        'CREDIT_TOTAL': 'Cr Total'
+        }
+
+        pivot_table4 = pivot_table4.rename(columns=rename_dict)
+
+        desired_order = [
+            'ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KEL', 'HARI', 'JAM', 'SL', 'TRANS. DATE',
+            'Db Qurban', 'Cr Qurban', 'Db Khusus', 'Cr Khusus', 'Db Sihara', 'Cr Sihara', 'Db Pensiun', 'Cr Pensiun', 'Db Pokok', 'Cr Pokok',
+            'Db SIPADAN', 'Cr SIPADAN', 'Db Sukarela', 'Cr Sukarela', 'Db Wajib', 'Cr Wajib', 'Db Total', 'Cr Total'
+        ]
+
+        # Tambahkan kolom yang mungkin belum ada dalam DataFrame
+        for col in desired_order:
+            if col not in pivot_table4.columns:
+                pivot_table4[col] = 0
+
+        pivot_table4 = pivot_table4[desired_order]
+
+        st.write("Pivot THC Simpanan N/A:")
+        st.write(pivot_table4)
 
     # Proses TLP N/A
     if 'TLP_na.xlsx' in dfs:
@@ -295,12 +385,16 @@ if uploaded_files:
 
         if 'pivot_table1' in locals():
             pivot_tables['pivot_pinjaman_na.xlsx'] = pivot_table1
+        
+        if 'pivot_table4' in locals():
+            pivot_tables['pivot_simpanan_na.xlsx'] = pivot_table4
 
         if 'pivot_table2' in locals():
             pivot_tables['pivot_TLP_na.xlsx'] = pivot_table2
 
         if 'pivot_table3' in locals():
             pivot_tables['pivot_KDP_na.xlsx'] = pivot_table3
+
 
         for name, df in pivot_tables.items():
             buffer = io.BytesIO()
