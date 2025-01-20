@@ -138,7 +138,7 @@ if uploaded_files:
         df4 = dfs['simpanan_na.xlsx']
 
         df4['TRANS. DATE'] = pd.to_datetime(df4['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
-        df4['DUMMY'] = df1['ID ANGGOTA'] + '' + df4['TRANS. DATE']
+        df4['DUMMY'] = df4['ID ANGGOTA'] + '' + df4['TRANS. DATE']
 
         pivot_table4 = pd.pivot_table(
             df4,
